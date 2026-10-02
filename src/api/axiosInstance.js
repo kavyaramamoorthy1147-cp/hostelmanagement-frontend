@@ -1,35 +1,34 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://hostelmanagement-backend-bi2r.onrender.com/api',
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Request interceptor: attach JWT token if available
+// Attach JWT token if available
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('hostel_token');
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor: handle unauthorized errors gracefully
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // If unauthorized, remove token and user info
+    if (error.response?.status === 401) {
       localStorage.removeItem('hostel_token');
       localStorage.removeItem('hostel_user');
     }
+
     return Promise.reject(error);
   }
 );
