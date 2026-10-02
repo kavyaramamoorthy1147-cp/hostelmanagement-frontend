@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -20,8 +20,17 @@ const RootRedirect = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <p style={{ fontWeight: 600, color: '#64748b' }}>Loading HostelCare...</p>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <p style={{ fontWeight: 600, color: '#64748b' }}>
+          Loading HostelCare...
+        </p>
       </div>
     );
   }
@@ -40,7 +49,7 @@ const RootRedirect = () => {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           {/* Public Authentication Routes */}
           <Route path="/login" element={<Login />} />
@@ -58,6 +67,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/students"
             element={
@@ -76,6 +86,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/complaints"
             element={
@@ -84,6 +95,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/profile"
             element={
@@ -106,7 +118,7 @@ function App() {
           {/* Catch-all 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }
